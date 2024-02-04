@@ -18,25 +18,35 @@ bool isPalindromic(string s) {
     return true;
 }
 /**
- * 打印给定字符串的所有可能子串。
+ * 查找并返回给定字符串中最长的回文子串。
  * 
- * 此函数遍历字符串的所有可能子串长度，从1到字符串的总长度。
- * 对于每个可能的子串长度，函数计算所有可能的起始位置，并打印从该位置开始的特定长度的子串。
- * 通过嵌套循环实现，外层循环控制子串的长度，内层循环控制子串的起始位置。
+ * 此函数通过检查输入字符串的所有可能子串来找到最长的回文子串。
+ * 它遍历所有子串，使用`isPalindromic`函数检查每个子串是否为回文。
+ * 如果找到一个更长的回文子串，函数会更新最长回文子串的长度和起始位置。
+ * 在遍历完成后，函数返回最长的回文子串。
  * 
- * @param s 输入字符串，函数将展示这个字符串的所有子串。
+ * 注意：如果存在长度相同的多个最长回文子串，函数将返回第一个找到的子串。
+ * 
+ * @param s 输入字符串，函数将在这个字符串中查找最长的回文子串。
+ * @return 返回找到的最长回文子串。如果输入字符串为空或不存在回文子串，则返回空字符串。
  */
-void showSubString(string s) {
+string getLongestPalindromicString(string s) {
     int length = s.size();
+    int maxLen = INT_MIN;
+    int maxStart = 0;
     for (int subLen = 1; subLen <= length; subLen++) {
         for (int start = 0; start + subLen - 1 <= length - 1; start++) {
             string substring = s.substr(start, subLen);
-            cout << substring << endl;
+            if (isPalindromic(substring) && subLen > maxLen) {
+                maxLen = subLen;
+                maxStart = start;
+            }
         }
     }
+    return s.substr(maxStart, maxLen);
 }
 int main() {
     string s;
     cin >> s;
-    showSubString(s);
+    cout << getLongestPalindromicString(s);
 }
